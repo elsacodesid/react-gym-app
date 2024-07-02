@@ -13,15 +13,16 @@ const Generator = () => {
   }
 
   function updateMuscles(muscleGroup) {
+    if (muscles.includes(muscleGroup)) {
+      setMuscles(muscles.filter((val) => val !== muscleGroup));
+      return;
+    }
     if (muscles.length > 2) return;
     if (poison !== "individual") {
       setMuscles([muscleGroup]);
       return;
     }
-    if (muscles.includes(muscleGroup)) {
-      setMuscles(muscles.filter((val) => val !== muscleGroup));
-      return;
-    }
+    
     setMuscles([...muscles, muscleGroup]);
   }
 
@@ -40,8 +41,15 @@ const Generator = () => {
   }
 
   return (
-    <SectionWrapper header={"generate your workout"} title={["it's", "Fit", "O'Clock"]}>
-      <Header index={"01"} title={"Pick your poison"} description={"Select the workout you wish to endure."} />
+    <SectionWrapper
+      header={"generate your workout"}
+      title={["it's", "Fit", "O'Clock"]}
+    >
+      <Header
+        index={"01"}
+        title={"Pick your poison"}
+        description={"Select the workout you wish to endure."}
+      />
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {Object.keys(WORKOUTS).map((type, typeIndex) => {
           return (
@@ -60,9 +68,16 @@ const Generator = () => {
         })}
       </div>
 
-      <Header index={"02"} title={"Lock on targets"} description={"Select the muscles judged for annihilation."} />
+      <Header
+        index={"02"}
+        title={"Lock on targets"}
+        description={"Select the muscles judged for annihilation."}
+      />
       <div className="bg-slate-950 py-3 border border-solid border-blue-400 rounded-lg flex flex-col">
-        <button onClick={toggleModal} className="relative flex items-center justify-center">
+        <button
+          onClick={toggleModal}
+          className="relative flex items-center justify-center"
+        >
           <p>Select muscle groups</p>
           <i className="fa-solid fa-caret-down p-3 absolute right-3 top-1/2 -translate-y-1/2"></i>
         </button>
@@ -74,7 +89,9 @@ const Generator = () => {
                     onClick={() => {
                       updateMuscles(muscle);
                     }}
-                    className={`hover:text-blue-400 duration-200 ${muscles.includes(muscle) ? "text-blue-400" : ""}`}
+                    className={`hover:text-blue-400 duration-200 ${
+                      muscles.includes(muscle) ? "text-blue-400" : ""
+                    }`}
                     key={index}
                   >
                     <p>{muscle}</p>
@@ -85,7 +102,9 @@ const Generator = () => {
                     onClick={() => {
                       updateMuscles(muscleGroup);
                     }}
-                    className={`hover:text-blue-400 duration-200 ${muscles.includes(muscleGroup) ? "text-blue-400" : ""}`}
+                    className={`hover:text-blue-400 duration-200 ${
+                      muscles.includes(muscleGroup) ? "text-blue-400" : ""
+                    }`}
                     key={index}
                   >
                     <p>{muscleGroup}</p>
@@ -95,7 +114,11 @@ const Generator = () => {
         )}
       </div>
 
-      <Header index={"03"} title={"Become Juggernaut"} description={"Select Your Ultimate Objective."} />
+      <Header
+        index={"03"}
+        title={"Become Juggernaut"}
+        description={"Select Your Ultimate Objective."}
+      />
       <div className="grid grid-cols-3 gap-4">
         {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
           return (
