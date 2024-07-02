@@ -10,6 +10,19 @@ const Generator = () => {
   function toggleModal() {
     setShowModal(!showModal);
   }
+  function updateMuscles(muscleGroup){
+    if (muscles.length > 2) return
+    if (poison !== "individual "){
+      setMuscles([muscleGroup])
+      return
+    }
+    if(muscles.includes(muscleGroup)){
+      setMuscles(muscles.filter(val => val !== muscleGroup ))
+      return
+    }
+
+    setMuscles([...muscles, muscleGroup])
+  }
   function Header({ index, title, description }) {
     return (
       <div className="flex flex-col gap-4">
@@ -57,7 +70,7 @@ const Generator = () => {
         title={"Lock on targets"}
         description={"Select the muscles judged for annihilation."}
       />
-      
+
       <div className="bg-slate-950 py-3 border border-solid border-blue-400 rounded-lg flex flex-col">
         <button
           onClick={toggleModal}
@@ -66,7 +79,23 @@ const Generator = () => {
           <p>Select muscle groups</p>
           <i className="fa-solid fa-caret-down p-3 absolute right-3 top-1/2 -translate-y-1/2"></i>
         </button>
-        {showModal && <div>modal</div>}
+        {showModal && (
+          <div className="flex flex-col">
+            {poison === "individual"
+              ? WORKOUTS[poison].map((muscle, index) => (
+                  <button onClick={()=> {
+
+                  }} className={"hover:text-blue-400 duration-200"} key={index}>
+                    <p>{muscle}</p>
+                  </button>
+                ))
+              : Object.keys(WORKOUTS[poison]).map((muscleGroup, index) => (
+                  <button className="hover:text-blue-400 duration-200" key={index}>
+                    <p>{muscleGroup}</p>
+                  </button>
+                ))}
+          </div>
+        )}
       </div>
 
       <Header
@@ -75,7 +104,7 @@ const Generator = () => {
         description={"Select Your Ultimate Objective."}
       />
       <div className="grid grid-cols-3 gap-4">
-      {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
+        {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
           return (
             <button
               onClick={() => {
