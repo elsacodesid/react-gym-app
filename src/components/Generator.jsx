@@ -6,7 +6,7 @@ const Generator = () => {
   const [showModal, setShowModal] = useState(false);
   const [poison, setPoison] = useState("individual");
   const [muscles, setMuscles] = useState([]);
-  const [goals, setGoals] = useState("strength_power");
+  const [goal, setGoal] = useState("strength_power");
   function toggleModal() {
     setShowModal(!showModal);
   }
@@ -57,6 +57,7 @@ const Generator = () => {
         title={"Lock on targets"}
         description={"Select the muscles judged for annihilation."}
       />
+      
       <div className="bg-slate-950 py-3 border border-solid border-blue-400 rounded-lg flex flex-col">
         <button
           onClick={toggleModal}
@@ -74,10 +75,16 @@ const Generator = () => {
         description={"Select Your Ultimate Objective."}
       />
       <div className="grid grid-cols-3 gap-4">
-        {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
+      {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
           return (
             <button
-              className="bg-slate-950 border border-blue-400 py-3 rounded-lg duration-200 hover:border-blue-600"
+              onClick={() => {
+                setGoal(scheme);
+              }}
+              className={
+                "bg-slate-950 border border-blue-400 py-3 rounded-lg duration-200 hover:border-blue-600" +
+                (scheme === goal ? " border-blue-600" : "border-blue-400 ")
+              }
               key={schemeIndex}
             >
               <p className="capitalize">{scheme.replaceAll("_", " ")}</p>
