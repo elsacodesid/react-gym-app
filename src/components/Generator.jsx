@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SectionWrapper from "./SectionWrapper";
 import { SCHEMES, WORKOUTS } from "../utils/exercises";
 
@@ -11,21 +11,29 @@ const Generator = () => {
   function toggleModal() {
     setShowModal(!showModal);
   }
-
   function updateMuscles(muscleGroup) {
     if (muscles.includes(muscleGroup)) {
       setMuscles(muscles.filter((val) => val !== muscleGroup));
       return;
     }
-    if (muscles.length > 2) return;
-    if (poison !== "individual") {
-      setMuscles([muscleGroup]);
+    if (muscles.length > 2) {
+      setShowModal(false);
       return;
     }
-    
+    if (poison !== "individual") {
+      setMuscles([muscleGroup]);
+      setShowModal(false);
+      return;
+    }
+
     setMuscles([...muscles, muscleGroup]);
   }
 
+  useEffect(() => {
+    if (muscles.length === 3) {
+      setShowModal(false);
+    }
+  }, [muscles]);
   function Header({ index, title, description }) {
     return (
       <div className="flex flex-col gap-4">
@@ -57,10 +65,10 @@ const Generator = () => {
               onClick={() => {
                 setPoison(type);
               }}
+              key={typeIndex}
               className={`bg-slate-950 border border-blue-400 py-3 rounded-lg duration-200 hover:border-blue-600 ${
                 type === poison ? "border-blue-600" : "border-blue-400"
               }`}
-              key={typeIndex}
             >
               <p className="capitalize">{type.replaceAll("_", " ")}</p>
             </button>
@@ -84,32 +92,36 @@ const Generator = () => {
         {showModal && (
           <div className="flex flex-col">
             {poison === "individual"
-              ? WORKOUTS[poison].map((muscle, index) => (
-                  <button
-                    onClick={() => {
-                      updateMuscles(muscle);
-                    }}
-                    className={`hover:text-blue-400 duration-200 ${
-                      muscles.includes(muscle) ? "text-blue-400" : ""
-                    }`}
-                    key={index}
-                  >
-                    <p>{muscle}</p>
-                  </button>
-                ))
-              : Object.keys(WORKOUTS[poison]).map((muscleGroup, index) => (
-                  <button
-                    onClick={() => {
-                      updateMuscles(muscleGroup);
-                    }}
-                    className={`hover:text-blue-400 duration-200 ${
-                      muscles.includes(muscleGroup) ? "text-blue-400" : ""
-                    }`}
-                    key={index}
-                  >
-                    <p>{muscleGroup}</p>
-                  </button>
-                ))}
+              ? WORKOUTS[poison].map((muscle, index) => {
+                  return (
+                    <button
+                      onClick={() => {
+                        updateMuscles(muscle);
+                      }}
+                      key={index}
+                      className={`hover:text-blue-400 duration-200 ${
+                        muscles.includes(muscle) ? "text-blue-400" : ""
+                      }`}
+                    >
+                      <p>{muscle}</p>
+                    </button>
+                  );
+                })
+              : Object.keys(WORKOUTS[poison]).map((muscleGroup, index) => {
+                  return (
+                    <button
+                      onClick={() => {
+                        updateMuscles(muscleGroup);
+                      }}
+                      key={index}
+                      className={`hover:text-blue-400 duration-200 ${
+                        muscles.includes(muscleGroup) ? "text-blue-400" : ""
+                      }`}
+                    >
+                      <p>{muscleGroup}</p>
+                    </button>
+                  );
+                })}
           </div>
         )}
       </div>
@@ -126,10 +138,10 @@ const Generator = () => {
               onClick={() => {
                 setGoal(scheme);
               }}
+              key={schemeIndex}
               className={`bg-slate-950 border border-blue-400 py-3 rounded-lg duration-200 hover:border-blue-600 ${
                 scheme === goal ? "border-blue-600" : "border-blue-400"
               }`}
-              key={schemeIndex}
             >
               <p className="capitalize">{scheme.replaceAll("_", " ")}</p>
             </button>
