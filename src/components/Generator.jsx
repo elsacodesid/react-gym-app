@@ -64,6 +64,7 @@ const Generator = () => {
             <button
               onClick={() => {
                 setPoison(type);
+                setMuscles([]);
               }}
               key={typeIndex}
               className={`bg-slate-950 border border-blue-400 py-3 rounded-lg duration-200 hover:border-blue-600 ${
