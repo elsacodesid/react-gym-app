@@ -87,7 +87,7 @@ const Generator = () => {
           onClick={toggleModal}
           className="relative flex items-center justify-center"
         >
-          <p>Select muscle groups</p>
+          <p>{muscles.length === 0 ? "Select muscle groups" : muscles.join(", ")}</p>
           <i className="fa-solid fa-caret-down p-3 absolute right-3 top-1/2 -translate-y-1/2"></i>
         </button>
         {showModal && (
