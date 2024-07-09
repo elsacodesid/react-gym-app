@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SectionWrapper from "./SectionWrapper";
 import { SCHEMES, WORKOUTS } from "../utils/exercises";
+import Button from "./Button";
 
 const Generator = () => {
   const [showModal, setShowModal] = useState(false);
@@ -149,7 +150,11 @@ const Generator = () => {
           );
         })}
       </div>
+
+      <Button text={"Formulate"}/>
     </SectionWrapper>
+    
+
   );
 };
 

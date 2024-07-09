@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "./Button";
 
 const Hero = () => {
   return (
@@ -12,7 +13,7 @@ const Hero = () => {
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus
           eos, perferendis fugit quis tenetur quas!
         </p>
-        <div className="justify-center">  <button className="px-8 py-4 rounded-medium border-2 border-blue-400 border-solid bg-slate-900 blueShadow duration-100 w-80"><p>Accept & Begin</p></button></div>
+        <div className="justify-center">  <Button text={"Accept & Begin"}/></div>
       
       </div>
     </div>
